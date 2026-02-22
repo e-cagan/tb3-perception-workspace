@@ -11,7 +11,7 @@ import rclpy
 from rclpy.node import Node
 
 from sensor_msgs.msg import Image, CameraInfo
-from vision_msgs.msg import Detection2DArray
+from vision_msgs.msg import Detection2D, Detection2DArray, ObjectHypothesisWithPose
 
 
 class DetectorNode(Node):
@@ -67,7 +67,73 @@ class DetectorNode(Node):
     def image_callback(self, msg):
         """
         Main callback that processes images.
+
+        Assuming incommimg message is Detection2DArray
         """
+
+        detections = list()
+        det_2d_array_msg = Detection2DArray()
+
+        # Convert ros image to numpy array
+        img = self.cv_bridge.imgmsg_to_cv2(msg, "bgr8")
+
+        # Call detectors based on detection mode
+        if self.get_parameter('detection_mode').value == 'aruco':
+            detections = self.detect_aruco(img)
+        elif self.get_parameter('detection_mode').value == 'yolo':
+            detections = self.detect_yolo(img)
+        else:
+            pass
+
+        # Iterate trough detections
+        for detection in detections:
+            det_2d_msg = Detection2D()
+            ohwp = ObjectHypothesisWithPose()
+
+            # Fill out the fields of detection message
+            det_2d_msg.bbox.center.position.x = detection['bbox'][0]
+            det_2d_msg.bbox.center.position.y = detection['bbox'][1]
+            det_2d_msg.bbox.size_x = detection['bbox'][2]
+            det_2d_msg.bbox.size_y = detection['bbox'][3]
+
+            ohwp.hypothesis.class_id = detection['class_id']
+            ohwp.hypothesis.score = detection['score']
+
+            det_2d_msg.results.append(ohwp)
+
+            det_2d_array_msg.detections.append(det_2d_msg)
+        
+        # Fill out the header then publish
+        det_2d_array_msg.header = msg.header
+        self.detections_pub.publish(det_2d_array_msg)
+
+        # Draw bbox then publish the image
+        for detection in detections:
+            bbox = detection['bbox']
+
+            # Draw bbox
+            cv2.rectangle(
+                img=img, 
+                pt1=(int(bbox[0] - bbox[2] / 2), int(bbox[1] - bbox[3] / 2)),     # (x - w/2, y - h/2)
+                pt2=(int(bbox[0] + bbox[2] / 2), int(bbox[1] + bbox[3] / 2)),     # (x + w/2, y + h/2)
+                color=(255, 0, 0),                                             # BGR format
+                thickness=3
+            )
+
+            # Put label
+            cv2.putText(
+                img=img,
+                text=detection['class_id'],
+                org=(int(bbox[0] - bbox[2] / 2), int(bbox[1] - bbox[3] / 2 - 10)),
+                color=(0, 255, 0),
+                fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                fontScale=0.6,
+                thickness=3
+            )
+
+        # Convert image back to ros image and publish ros image
+        ros_img = self.cv_bridge.cv2_to_imgmsg(img)
+        self.detection_image_pub.publish(ros_img)
 
     
     def detect_aruco(self, img):
