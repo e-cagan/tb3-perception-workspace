@@ -25,7 +25,7 @@ class DetectorNode(Node):
         # Parameters
         self.declare_parameter('detection_mode', 'yolo')
         self.declare_parameter('aruco_dict_type', cv2.aruco.DICT_4X4_50)
-        self.declare_parameter('yolo_model_path', '')
+        self.declare_parameter('yolo_model_path', 'weights/yolov8n.pt')
         self.declare_parameter('conf_threshold', 0.4)
 
         # Pubs / Subs

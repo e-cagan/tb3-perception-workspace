@@ -8,3 +8,5 @@ log/
 .log/
 
 __pycache__/
+
+*.pt
