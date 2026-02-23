@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'detector_node = tb3_perception.detector_node:main',
             'fusion_node = tb3_perception.fusion_node:main',
+            'approach_node = tb3_perception.approach_node:main',
         ],
     },
 )
