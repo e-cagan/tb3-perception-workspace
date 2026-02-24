@@ -42,6 +42,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'teleop_node = tb3_perception_bringup.teleop_node:main',
         ],
     },
 )
