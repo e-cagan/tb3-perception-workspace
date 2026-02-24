@@ -60,7 +60,7 @@ class DetectorNode(Node):
         """
 
         # Convert cam matrix to 3x3 array
-        self.cam_matrix = np.array(msg.K).reshape(3, 3)
+        self.cam_matrix = np.array(msg.k).reshape(3, 3)
         self.dist_coeffs = np.array(msg.d)
 
     
