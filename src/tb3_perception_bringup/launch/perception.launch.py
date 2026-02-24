@@ -41,12 +41,6 @@ def generate_launch_description():
     x_pose = LaunchConfiguration('x_pose', default='-2.0')
     y_pose = LaunchConfiguration('y_pose', default='-0.5')
 
-    world = os.path.join(
-        get_package_share_directory('turtlebot3_gazebo'),
-        'worlds',
-        'turtlebot3_world.world'
-    )
-
     # Including launch descriptions
     gzserver_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
