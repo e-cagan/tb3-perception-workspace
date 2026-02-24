@@ -1,0 +1,112 @@
+<!-- Usage notes are located in this file, look for "Usage"-->
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="default">
+    <gui>
+      <camera name="user_camera">
+        <pose>0 -18 8.0 0 0.523 1.5707</pose>
+      </camera>
+    </gui>
+    <light name="sun" type="directional">
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>0 0.5 -0.9</direction>
+    </light>
+
+    <light name="point_light" type="point">
+      <pose>0 -0.377195 6.59868 0 -0 0</pose>
+      <diffuse>0.784314 0.784314 0.784314 1</diffuse>
+      <specular>0.0980392 0.0980392 0.0980392 1</specular>
+      <attenuation>
+        <range>50</range>
+        <constant>0.8</constant>
+        <linear>0</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://cafe</uri>
+    </include>
+
+    <include>
+      <name>table1</name>
+      <pose>0.5 -1.6 0.2 0 0 0</pose>
+      <uri>model://cafe_table</uri>
+    </include>
+
+    <include>
+      <name>table2</name>
+      <pose>2.4 -5.5 0.2 0 0 0</pose>
+      <uri>model://cafe_table</uri>
+    </include>
+
+    <include>
+      <name>table3</name>
+      <pose>-1.5 -5.5 0.2 0 0 0</pose>
+      <uri>model://cafe_table</uri>
+    </include>
+
+    <include>
+      <name>table4</name>
+      <pose>2.4 -9 0.2 0 0 0</pose>
+      <uri>model://cafe_table</uri>
+    </include>
+
+    <include>
+      <name>table5</name>
+      <pose>-1.5 -9 0.2 0 0 0</pose>
+      <uri>model://cafe_table</uri>
+    </include>
+
+    <!-- ArUco Markers -->
+    <!-- Marker 0: table1 yaninda, dik duruyor, robota bakiyor -->
+    <include>
+      <name>aruco_0</name>
+      <uri>model://aruco_marker_0</uri>
+      <pose>0.5 -0.8 0.6 1.5708 0 0</pose>
+    </include>
+
+    <!-- Marker 1: table3 yaninda duvara yakin, sola bakiyor -->
+    <include>
+      <name>aruco_1</name>
+      <uri>model://aruco_marker_1</uri>
+      <pose>-2.0 -5.5 0.6 1.5708 0 1.5708</pose>
+    </include>
+
+    <!-- Marker 2: table4 ile table5 arasi, ortada -->
+    <include>
+      <name>aruco_2</name>
+      <uri>model://aruco_marker_2</uri>
+      <pose>0.5 -9.0 0.6 1.5708 0 3.1416</pose>
+    </include>
+
+    <!-- Objects for YOLO detection -->
+    <include>
+      <name>trash_can</name>
+      <uri>model://first_2015_trash_can</uri>
+      <pose>1.5 -3.0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>mailbox1</name>
+      <uri>model://mailbox</uri>
+      <pose>-1.0 -8.0 0 0 0 0</pose>
+    </include>
+
+  </world>
+</sdf>
