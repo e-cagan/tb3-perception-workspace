@@ -32,7 +32,7 @@ class DetectorNode(Node):
         self.detections_pub = self.create_publisher(Detection2DArray, 'detections', 10)
         self.detection_image_pub = self.create_publisher(Image, 'detection_image', 10)
         #------------------------------------------------------------------------------
-        self.cam_info_sub = self.create_subscription(CameraInfo, 'camera_info', self.cam_info_callback, 10)
+        self.cam_info_sub = self.create_subscription(CameraInfo, 'camera/camera_info', self.cam_info_callback, 10)
         self.image_sub = self.create_subscription(Image, 'image_raw', self.image_callback, 10)
 
         # Others

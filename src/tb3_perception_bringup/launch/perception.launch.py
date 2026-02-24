@@ -38,8 +38,8 @@ def generate_launch_description():
     pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    x_pose = LaunchConfiguration('x_pose', default='-2.0')
-    y_pose = LaunchConfiguration('y_pose', default='-0.5')
+    x_pose = LaunchConfiguration('x_pose', default='0.5')
+    y_pose = LaunchConfiguration('y_pose', default='-0.2')
 
     # Including launch descriptions
     gzserver_cmd = IncludeLaunchDescription(
@@ -76,13 +76,21 @@ def generate_launch_description():
     detector_node = Node(
         name='detector_node',
         package='tb3_perception',
-        executable='detector_node'
+        executable='detector_node',
+        remappings=[
+            ('image_raw', '/camera/image_raw'),
+            ('camera_info', '/camera/camera_info'),
+        ]
     )
 
     fusion_node = Node(
         name='fusion_node',
         package='tb3_perception',
-        executable='fusion_node'
+        executable='fusion_node',
+        remappings=[
+            ('camera/camera_info', '/camera/camera_info'),
+            ('scan', '/scan'),
+        ]
     )
 
     approach_node = Node(
